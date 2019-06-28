@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace W8_2_Lesson8B
 {
-    public partial class Form1 : Form
+    public partial class Lesson09Form : Form
     {
-        public Form1()
+        public Lesson09Form()
         {
             InitializeComponent();
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
