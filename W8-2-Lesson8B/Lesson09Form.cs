@@ -12,14 +12,45 @@ namespace W8_2_Lesson8B
 {
     public partial class Lesson09Form : Form
     {
+        /// <summary>
+        /// This is the constructor
+        /// </summary>
         public Lesson09Form()
         {
             InitializeComponent();
         }
 
-        private void button11_Click(object sender, EventArgs e)
+        /// <summary>
+        /// This is the shared Event Handler for all the calculator buttons' click event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CalculatorNumbersClick(object sender, EventArgs e)
         {
+            Button selectedButton = sender as Button; //casting the selectedButton as a Button-type obj.
 
+            try
+            {
+                int.Parse(selectedButton.Text);
+                ResultLabel.Text = selectedButton.Text;
+            }
+            catch
+            {
+                ResultLabel.Text = "Not a number";
+
+            }
+
+            /*
+            switch (selectedButton.Text)
+            {
+                case "1":
+                    ResultLabel.Text = "1";
+                    break;
+                default:
+                    break;
+            }
+            */
+            //ResultLabel.Text = selectedButton.Text;
         }
     }
 }
