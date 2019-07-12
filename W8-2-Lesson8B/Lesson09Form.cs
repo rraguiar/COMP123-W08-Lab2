@@ -12,11 +12,32 @@ namespace W8_2_Lesson8B
 {
     public partial class Lesson09Form : Form
     {
-        // CLASS PROPERTIES
+        //PRIVATE DATA MEMBERS
+        private Label m_activeLabel;
+
+        // PUBLIC PROPERTIES
         public string outputString { get; set; }
         public float outputValue { get; set; }
         public bool decimalExists { get; set; }
-
+        public Label ActiveLabel
+        {
+            get
+            {
+                return m_activeLabel;
+            }
+            set(Label newLabel)
+            {
+            if (m_activeLabel != null)
+            {
+            m_activeLabel.BackColor = Color.White;
+            }
+    m_activeLabel=value;
+        if (m_ActiveLabel != null)
+        {
+            m_activeLabel.BackColor=Color.LightBlue;
+        }
+            }
+        }
 
         /// <summary>
         /// This is the constructor
@@ -27,11 +48,37 @@ namespace W8_2_Lesson8B
         }
 
         /// <summary>
+        /// This is the event handler for the form load event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Lesson09Form_Load(object sender, EventArgs e)
+        {
+    this.Size = new Size(320, 480);
+            clearNumericKeyboard();
+    NumberButtonTableLayoutPannel.Visible = false;
+
+
+
+        }
+        /// <summary>
+        /// This is the event handler for the form click event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Calculatorform_Click(object sender, EventArgs e)
+        {
+            NumberButtonTableLayoutPannel.Visible = false;
+          ActiveLabel = null;
+            clearNumericKeyboard();
+        }
+
+        /// <summary>
         /// This is the shared Event Handler for all the calculator buttons' click event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CalculatorNumbersClick(object sender, EventArgs e)
+        private void CalculatorButtons_Click(object sender, EventArgs e)
         {
             Button TheButton = sender as Button; //casting the selectedButton as a Button-type obj.
             var tag = TheButton.Tag.ToString();
@@ -47,12 +94,10 @@ namespace W8_2_Lesson8B
                 {
                     outputString = tag;
                 }
-                else
+                else if (outputString.Length < maxSize)
+
                 {
-                    if (outputString.Length < maxSize)
-                    {
-                        outputString += tag;
-                    }
+                    outputString += tag;
                 }
                 ResultLabel.Text = outputString;
             }
@@ -65,7 +110,6 @@ namespace W8_2_Lesson8B
                         break;
                     case "done":
                         finalizeOutput();
-
                         break;
                     case "clear":
                         clearNumericKeyboard();
@@ -112,9 +156,11 @@ namespace W8_2_Lesson8B
             {
                 outputValue = 0.1f;
             }
-            HeightLable.Text = outputValue.ToString();
+            ActiveLabel.Text = outputValue.ToString();
             clearNumericKeyboard();
             NumberButtonTableLayoutPannel.Visible = false;
+            ActiveLabel.BackColor = Color.White;
+            ActiveLabel = null;
         }
 
         private void removeLastCharacterFromResultLabel()
@@ -142,25 +188,36 @@ namespace W8_2_Lesson8B
             outputValue = 0.0f;
             decimalExists = false;
         }
-
-        /// <summary>
-        /// This is the event handler for the form load event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Lesson09Form_Load(object sender, EventArgs e)
-        {
-            clearNumericKeyboard();
-        }
-
+        
         /// <summary>
         /// This is the event handler 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void HeightLable_Click(object sender, EventArgs e)
+        private void ActiveLable_Click(object sender, EventArgs e)
         {
+
+            if (ActiveLabel != null)
+            {
+                clearNumericKeyboard();
+            }
+
+
+            ActiveLabel = sender as Label;
+            ActiveLabel.BackColor = Color.LightBlue;
+
+    NumberButtonTableLayoutPannel.Location.Y = new Point(12, ActiveLabel.Location.Y +55);
+    NumberButtonTableLayoutPannel.BringToFront();
+
+    if (ActiveLabel.Text!="0")
+            {
+                outputString = ActiveLabel.Text;
+                ResultLabel.Text = ActiveLabel.Text;
+            }
+
             NumberButtonTableLayoutPannel.Visible = true;
         }
+
+
     }
 }
